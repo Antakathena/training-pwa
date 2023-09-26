@@ -38,7 +38,12 @@ export class PageHome {
           </ion-toolbar>
         </ion-header>
         <ion-content class="ion-padding">
-          <p>Welcome to Stencil App Starter.</p>
+          <p>Actions :</p>
+          <ul>
+            <li>create training-pwa with stencil</li>
+            <li>add ag-grid</li>
+            <li>add chart</li>
+          </ul>
           <ion-list>
             <ion-radio-group
               value={this.mode}
