@@ -7,6 +7,8 @@
 
   Any global CSS variables should also be applied here.
 */
+@import '~ag-grid-community/styles/ag-grid.css';
+@import '~ag-grid-community/styles/ag-theme-alpine.css';
 
 /*
   The imports below are needed to include our light dom css for global styles such as fonts and colors.

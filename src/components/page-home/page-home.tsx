@@ -1,4 +1,8 @@
-import { Component, Fragment, h, State } from '@stencil/core'
+import { Component, Fragment, h } from '@stencil/core'
+// import 'ag-grid-community/styles/ag-grid.css';
+// import 'ag-grid-community/styles/ag-theme-alpine.css';
+import * as agCharts from 'ag-charts-community';
+import * as agGrid from 'ag-grid-community';
 
 @Component({
   tag: 'page-home',
@@ -6,76 +10,102 @@ import { Component, Fragment, h, State } from '@stencil/core'
   // shadow: true,
 })
 export class PageHome {
-  @State() mode: string
+  private gridElement: HTMLDivElement;
+  private chartDiv: HTMLDivElement;
+  private gridOptions: agGrid.GridOptions = {
+  columnDefs: [
+    { headerName: "Category", field: "category" },
+    { headerName: "Value", field: "value" }
+  ],
+  defaultColDef: {
+    minWidth: 95,
+    resizable: true,
+    sortable: true,
+    filter: true,
+    hide: false,
+  },
+  rowData: [
+    { category: "Ananas", value: 10 },
+    { category: "Blette", value: 20 },
+    { category: "Concombre", value: 15 },
+    { category: "Danone", value: 40 },
+    { category: "Epinard", value: 522 },
+  ]
+};
 
-  constructor() {
-    this.mode = localStorage.getItem('mode') || 'auto'
+  componentDidLoad() {
+    console.log('componentDidLoad');
+    this.createGrid();
+    this.createChart();
   }
 
-  setMode(mode: string) {
-    if (mode == this.mode) {
-      return
-    }
-    this.mode = mode
-    switch (mode) {
-      case 'md':
-      case 'ios':
-        localStorage.setItem('mode', mode)
-        break
-      default:
-        localStorage.removeItem('mode')
-        break
-    }
-    location.reload()
+  createGrid() {
+    console.log('createGrid')
+    console.log('gridOptions', this.gridOptions);
+
+    this.gridElement = document.querySelector("#myGrid");
+    this.gridElement.classList.add('ag-theme-alpine');
+
+    //document.body.appendChild(this.gridElement);
+    new agGrid.Grid(this.gridElement, this.gridOptions);
+
+    console.log('gridCreated');
+  }
+
+  createChart() {
+    console.log('createChart')
+    this.chartDiv = document.querySelector('#myChart');
+
+
+
+    agCharts.AgChart.create({
+      container: this.chartDiv,
+      data: [
+        { category: "A", value: 10 },
+        { category: "B", value: 20 },
+        { category: "C", value: 15 },
+        { category: "D", value: 40 }
+      ],
+      series: [{
+        type: 'column',
+        xKey: 'category',
+        yKey: 'value',
+      }],
+    });
   }
 
   render() {
+    console.log('Render');
     return (
       <Fragment>
         <ion-header>
-          <ion-toolbar color="primary">
-            <ion-title>Home</ion-title>
+          <ion-toolbar class="toolbar">
+            <ion-title>Grid</ion-title>
           </ion-toolbar>
         </ion-header>
         <ion-content class="ion-padding">
-          <p>Actions :</p>
-          <ul>
-            <li>create training-pwa with stencil</li>
-            <li>add ag-grid</li>
-            <li>add chart</li>
-          </ul>
-          <ion-list>
-            <ion-radio-group
-              value={this.mode}
-              onIonChange={e => this.setMode(e.detail.value)}
-            >
-              <ion-list-header>
-                <ion-label>Theme Mode</ion-label>
-              </ion-list-header>
-              <ion-note class="ion-padding-start">
-                (Changing theme will reload the whole app.)
-              </ion-note>
-              <ion-item>
-                <ion-radio value="auto">Auto Detect</ion-radio>
+          <div class="invisible">
+            <p>Let's try navigating with ionic router!</p>
+            <ion-list>
+              <ion-item href="/tab/notice">
+                <ion-label>Notice Page (/tab/notice)</ion-label>
               </ion-item>
-              <ion-item>
-                <ion-radio value="md">Material Design</ion-radio>
+              <ion-item href="/profile/ionic">
+                <ion-label>Profile Page (/profile/ionic)</ion-label>
               </ion-item>
-              <ion-item>
-                <ion-radio value="ios">iOS</ion-radio>
-              </ion-item>
-            </ion-radio-group>
-          </ion-list>
-          <p>Let's try navigating with ionic router!</p>
-          <ion-list>
-            <ion-item href="/tab/notice">
-              <ion-label>Notice Page (/tab/notice)</ion-label>
-            </ion-item>
-            <ion-item href="/profile/ionic">
-              <ion-label>Profile Page (/profile/ionic)</ion-label>
-            </ion-item>
-          </ion-list>
+            </ion-list>
+        </div>
+        <section>
+                <p>Some Graph with AG-grid</p>
+                <p class="precision">Grid :</p>
+                <div id="myGrid" class="ag-theme-alpine">
+                </div>
+                <p class="precision">Graph :</p>
+                <div id="myChart" >
+                </div>
+        </section>
         </ion-content>
+
       </Fragment>
     )
   }

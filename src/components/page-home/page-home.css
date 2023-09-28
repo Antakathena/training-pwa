@@ -1,0 +1,43 @@
+section {
+  display: block;
+  border: solid lightslategray;
+  height: 1000px;
+}
+
+p {
+  margin: 10px;
+  background-color: lightslategray;
+  padding: 10px;
+}
+
+#myGrid {
+  border: solid slategrey;
+  margin: 20px;
+  height: 400px;
+  width: 600px;
+}
+
+#myChart {
+  margin: 20px;
+  background-color: beige;
+  height: 300px;
+  width: 600px
+}
+
+.invisible {
+  display: none;
+}
+
+.label {
+  margin: 10px;
+  padding: 5px
+}
+
+.precision {
+  background-color: whitesmoke;
+}
+
+.toolbar {
+  background-color: cadetblue
+}
+
