@@ -24,6 +24,13 @@ p {
   width: 600px
 }
 
+#myLineChart {
+  margin: 20px;
+  border: solid slategrey;
+  height: 400px;
+  width: 600px
+}
+
 .invisible {
   display: none;
 }

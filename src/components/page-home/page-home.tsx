@@ -1,7 +1,4 @@
 import { Component, Fragment, h } from '@stencil/core'
-// import 'ag-grid-community/styles/ag-grid.css';
-// import 'ag-grid-community/styles/ag-theme-alpine.css';
-import * as agCharts from 'ag-charts-community';
 import * as agGrid from 'ag-grid-community';
 
 @Component({
@@ -11,14 +8,13 @@ import * as agGrid from 'ag-grid-community';
 })
 export class PageHome {
   private gridElement: HTMLDivElement;
-  private chartDiv: HTMLDivElement;
   private gridOptions: agGrid.GridOptions = {
   columnDefs: [
     { headerName: "Category", field: "category" },
     { headerName: "Value", field: "value" }
   ],
   defaultColDef: {
-    minWidth: 95,
+    minWidth: 120,
     resizable: true,
     sortable: true,
     filter: true,
@@ -36,7 +32,6 @@ export class PageHome {
   componentDidLoad() {
     console.log('componentDidLoad');
     this.createGrid();
-    this.createChart();
   }
 
   createGrid() {
@@ -46,32 +41,9 @@ export class PageHome {
     this.gridElement = document.querySelector("#myGrid");
     this.gridElement.classList.add('ag-theme-alpine');
 
-    //document.body.appendChild(this.gridElement);
     new agGrid.Grid(this.gridElement, this.gridOptions);
 
     console.log('gridCreated');
-  }
-
-  createChart() {
-    console.log('createChart')
-    this.chartDiv = document.querySelector('#myChart');
-
-
-
-    agCharts.AgChart.create({
-      container: this.chartDiv,
-      data: [
-        { category: "A", value: 10 },
-        { category: "B", value: 20 },
-        { category: "C", value: 15 },
-        { category: "D", value: 40 }
-      ],
-      series: [{
-        type: 'column',
-        xKey: 'category',
-        yKey: 'value',
-      }],
-    });
   }
 
   render() {
@@ -95,14 +67,11 @@ export class PageHome {
               </ion-item>
             </ion-list>
         </div>
+        <chart-experiment></chart-experiment>
         <section>
-                <p>Some Graph with AG-grid</p>
+                <p>Some Grid with AG-grid</p>
                 <p class="precision">Grid :</p>
-                <div id="myGrid" class="ag-theme-alpine">
-                </div>
-                <p class="precision">Graph :</p>
-                <div id="myChart" >
-                </div>
+                <div id="myGrid" class="ag-theme-alpine"></div>
         </section>
         </ion-content>
 
